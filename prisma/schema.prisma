@@ -1,0 +1,35 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["postgresqlExtensions"]
+}
+
+datasource db {
+  provider   = "postgresql"
+  extensions = [vector]
+}
+
+model Event {
+  id      String   @id @default(cuid())
+  name    String
+  date    DateTime
+  ownerId String   // Photographer ID (from Supabase Auth)
+  images  Image[]
+}
+
+model Image {
+  id           String   @id @default(cuid())
+  originalUrl  String   // Path to lossless original in R2
+  optimizedUrl String   // Path to optimized WebP in R2
+  eventId      String
+  event        Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  faces        Face[]
+  createdAt    DateTime @default(now())
+}
+
+model Face {
+  id        String                 @id @default(cuid())
+  imageId   String
+  image     Image                  @relation(fields: [imageId], references: [id], onDelete: Cascade)
+  embedding Unsupported("vector(512)") // pgvector for 512-d embeddings
+  box       Json?                  // Bounding box coordinates
+}
