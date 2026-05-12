@@ -5,8 +5,9 @@ import { ArrowLeft, Calendar } from 'lucide-react'
 import { UploadZone } from './UploadZone'
 import { EventImage } from './EventImage'
 
-export default async function EventPage({ params }: { params: { id: string } }) {
-  const event = await getEventById(params.id)
+export default async function EventPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
+  const event = await getEventById(id)
 
   if (!event) {
     notFound()
@@ -44,7 +45,7 @@ export default async function EventPage({ params }: { params: { id: string } }) 
 
           {event.images.length > 0 ? (
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-              {event.images.map((image) => (
+              {event.images.map((image: any) => (
                 <EventImage key={image.id} objectKey={image.optimizedUrl} alt={`Event photo ${image.id}`} />
               ))}
             </div>
