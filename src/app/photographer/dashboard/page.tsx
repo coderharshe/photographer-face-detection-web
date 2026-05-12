@@ -51,7 +51,7 @@ export default async function PhotographerDashboard() {
         </section>
 
         <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {events.map(event => (
+          {events.map((event: any) => (
             <Link href={`/photographer/dashboard/events/${event.id}`} key={event.id}>
               <div className="group bg-neutral-900 border border-neutral-800 rounded-2xl p-6 hover:border-neutral-600 transition-all cursor-pointer h-full flex flex-col justify-between">
                 <div>

@@ -132,7 +132,7 @@ export function CustomerGallery() {
               }}
             >
               <AnimatePresence>
-                {matches.map((match) => (
+                {matches.map((match: any) => (
                   <motion.div 
                     key={match.imageId}
                     className="relative group bg-neutral-900 rounded-2xl overflow-hidden aspect-[4/5]"
