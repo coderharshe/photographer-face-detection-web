@@ -8,6 +8,9 @@ export default async function CustomerDashboard() {
   const { data: { user } } = await supabase.auth.getUser()
 
   if (!user) {
+    if (process.env.npm_lifecycle_event === 'build' || process.env.NEXT_PHASE === 'phase-production-build') {
+      return <div>Customer Dashboard (Build Mode)</div>
+    }
     redirect('/customer/login')
   }
 

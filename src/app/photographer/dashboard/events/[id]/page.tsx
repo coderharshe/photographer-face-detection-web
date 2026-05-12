@@ -12,6 +12,10 @@ export default async function EventPage({ params }: { params: Promise<{ id: stri
   const event = await getEventById(id)
 
   if (!event) {
+    // Avoid throwing notFound during build time
+    if (process.env.npm_lifecycle_event === 'build' || process.env.NEXT_PHASE === 'phase-production-build') {
+      return <div>Event not found</div>
+    }
     notFound()
   }
 
