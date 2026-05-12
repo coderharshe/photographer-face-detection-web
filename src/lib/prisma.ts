@@ -2,7 +2,13 @@ import { PrismaClient } from '@prisma/client'
 
 const prismaClientSingleton = () => {
   try {
-    return new PrismaClient()
+    return new PrismaClient({
+      datasources: {
+        db: {
+          url: process.env.DATABASE_URL,
+        },
+      },
+    })
   } catch (e) {
     console.warn("Failed to instantiate PrismaClient. This is expected during build if environment variables are missing.")
     return new Proxy({}, {
